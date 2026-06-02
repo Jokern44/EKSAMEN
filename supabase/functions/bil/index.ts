@@ -6,8 +6,9 @@ const corsHeaders = {
 };
 
 Deno.serve(async (req) => {
-  if (req.method === "OPTIONS")
+  if (req.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders });
+  }
 
   if (req.method !== "POST") {
     return new Response(JSON.stringify({ error: "Method not allowed" }), {
@@ -18,7 +19,6 @@ Deno.serve(async (req) => {
 
   try {
     const { reg } = await req.json();
-    const apiKey = Deno.env.get("SVV_API_KEY");
 
     if (!reg || typeof reg !== "string") {
       return new Response(JSON.stringify({ error: "Mangler reg" }), {
@@ -26,6 +26,8 @@ Deno.serve(async (req) => {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
+
+    const apiKey = Deno.env.get("SVV_API_KEY");
 
     if (!apiKey) {
       return new Response(JSON.stringify({ error: "SVV_API_KEY mangler" }), {
@@ -35,7 +37,9 @@ Deno.serve(async (req) => {
     }
 
     const response = await fetch(
-      `https://akfell-datautlevering.atlas.vegvesen.no/enkeltoppslag/kjoretoydata?kjennemerke=${encodeURIComponent(reg)}`,
+      `https://akfell-datautlevering.atlas.vegvesen.no/enkeltoppslag/kjoretoydata?kjennemerke=${encodeURIComponent(
+        reg,
+      )}`,
       {
         headers: {
           "SVV-Authorization": `Apikey ${apiKey}`,
@@ -43,17 +47,60 @@ Deno.serve(async (req) => {
       },
     );
 
-    return new Response(await response.text(), {
-      status: response.status,
+    const data = await response.json();
+
+    const vehicle = data?.kjoretoydataListe?.[0];
+
+    if (!vehicle) {
+      return new Response(JSON.stringify({ error: "Fant ikke kjøretøy" }), {
+        status: 404,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    const teknisk =
+      vehicle?.godkjenning?.tekniskGodkjenning?.tekniskeData || {};
+
+    const motor = teknisk?.motorOgDrivverk?.motor?.[0] || {};
+    const drivstoff = motor?.drivstoff?.[0] || {};
+
+    const result = {
+      merke: teknisk?.generelt?.merke?.[0]?.merke || null,
+
+      modell: teknisk?.generelt?.handelsbetegnelse?.[0] || null,
+
+      motor: {
+        type: drivstoff?.drivstoffKode?.kodeNavn || null,
+        effektKW: drivstoff?.maksNettoEffekt || null,
+        slagvolum: motor?.slagvolum || null,
+        antallSylindre: motor?.antallSylindre || null,
+      },
+
+      hjuldrift: teknisk?.motorOgDrivverk?.giroverforingsType || null,
+
+      forsteregistrert:
+        vehicle?.forstegangsregistrering?.registrertForstegangNorgeDato || null,
+
+      eu: {
+        sistGodkjent: vehicle?.periodiskKjoretoyKontroll?.sistGodkjent || null,
+        nesteFrist: vehicle?.periodiskKjoretoyKontroll?.kontrollfrist || null,
+      },
+    };
+
+    return new Response(JSON.stringify(result), {
+      status: 200,
       headers: {
         ...corsHeaders,
-        "Content-Type": "application/json; charset=utf-8",
+        "Content-Type": "application/json",
       },
     });
-  } catch (_error) {
-    return new Response(JSON.stringify({ error: "Klarte ikke hente data" }), {
-      status: 500,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
+  } catch (e) {
+    return new Response(
+      JSON.stringify({ error: "Klarte ikke hente kjøretøydata" }),
+      {
+        status: 500,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      },
+    );
   }
 });
