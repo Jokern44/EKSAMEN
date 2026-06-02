@@ -1,5 +1,5 @@
 async function sok() {
-  const reg = document.getElementById("reg").value;
+  const reg = document.getElementById("reg").value.trim().toUpperCase();
   const out = document.getElementById("out");
   const supabaseUrl = "https://gebtcnziczaayzwuiztk.supabase.co";
   const anonKey =
@@ -17,6 +17,7 @@ async function sok() {
       method: "POST",
       headers: {
         Authorization: `Bearer ${anonKey}`,
+        apikey: anonKey,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ reg }),
@@ -33,6 +34,6 @@ async function sok() {
     out.textContent = JSON.stringify(data, null, 2);
   } catch (e) {
     out.textContent =
-      "Klarte ikke å hente regnummer. Sjekk at serveren kjører.";
+      "Klarte ikke å hente regnummer. Sjekk at Supabase-funksjonen er deployet.";
   }
 }
