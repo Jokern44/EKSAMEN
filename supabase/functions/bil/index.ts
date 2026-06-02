@@ -1,0 +1,59 @@
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers":
+    "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Methods": "POST, OPTIONS",
+};
+
+Deno.serve(async (req) => {
+  if (req.method === "OPTIONS")
+    return new Response("ok", { headers: corsHeaders });
+
+  if (req.method !== "POST") {
+    return new Response(JSON.stringify({ error: "Method not allowed" }), {
+      status: 405,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
+
+  try {
+    const { reg } = await req.json();
+    const apiKey = Deno.env.get("SVV_API_KEY");
+
+    if (!reg || typeof reg !== "string") {
+      return new Response(JSON.stringify({ error: "Mangler reg" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    if (!apiKey) {
+      return new Response(JSON.stringify({ error: "SVV_API_KEY mangler" }), {
+        status: 500,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    const response = await fetch(
+      `https://akfell-datautlevering.atlas.vegvesen.no/enkeltoppslag/kjoretoydata?kjennemerke=${encodeURIComponent(reg)}`,
+      {
+        headers: {
+          "SVV-Authorization": `Apikey ${apiKey}`,
+        },
+      },
+    );
+
+    return new Response(await response.text(), {
+      status: response.status,
+      headers: {
+        ...corsHeaders,
+        "Content-Type": "application/json; charset=utf-8",
+      },
+    });
+  } catch (_error) {
+    return new Response(JSON.stringify({ error: "Klarte ikke hente data" }), {
+      status: 500,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
+});

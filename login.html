@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="no">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Logg inn</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  </head>
+  <body>
+    <main class="card">
+      <h1>Logg inn</h1>
+
+      <form id="login-form">
+        <label for="email">E-post</label>
+        <input id="email" type="email" autocomplete="email" required />
+
+        <label for="password">Passord</label>
+        <input
+          id="password"
+          type="password"
+          autocomplete="current-password"
+          required
+        />
+
+        <button type="submit">Logg inn</button>
+      </form>
+
+      <p id="status"></p>
+      <pre id="profile"></pre>
+      <p><a href="index.html">Tilbake</a></p>
+    </main>
+
+    <script src="login.js"></script>
+  </body>
+</html>
