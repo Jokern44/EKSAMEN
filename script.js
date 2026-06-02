@@ -1,6 +1,9 @@
 async function sok() {
   const reg = document.getElementById("reg").value;
   const out = document.getElementById("out");
+  const supabaseUrl = "https://gebtcnziczaayzwuiztk.supabase.co";
+  const anonKey =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdlYnRjbnppY3phYXl6d3VpenRrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAzMTIxNTAsImV4cCI6MjA5NTg4ODE1MH0.RZGOF0jzgDJQfda8N6dDBJPYUa87Hz9PZtuxgAH8ALU";
 
   if (!reg) {
     out.textContent = "Skriv inn regnummer først.";
@@ -10,9 +13,14 @@ async function sok() {
   out.textContent = "Henter...";
 
   try {
-    const res = await fetch(
-      `http://localhost:3000/bil?reg=${encodeURIComponent(reg)}`,
-    );
+    const res = await fetch(`${supabaseUrl}/functions/v1/bil`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${anonKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ reg }),
+    });
 
     if (!res.ok) {
       const errorText = await res.text();
