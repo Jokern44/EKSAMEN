@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="no">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Registrer</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  </head>
+  <body>
+    <main class="card">
+      <h1>Registrer konto</h1>
+
+      <form id="register-form">
+        <label for="email">E-post</label>
+        <input id="email" type="email" autocomplete="email" required />
+
+        <label for="password">Passord</label>
+        <input
+          id="password"
+          type="password"
+          autocomplete="new-password"
+          required
+        />
+
+        <label for="password2">Gjenta passord</label>
+        <input
+          id="password2"
+          type="password"
+          autocomplete="new-password"
+          required
+        />
+
+        <button type="submit">Registrer</button>
+      </form>
+
+      <p id="status"></p>
+      <p><a href="login.html">Tilbake til innlogging</a></p>
+    </main>
+
+    <script src="registrer.js"></script>
+  </body>
+</html>
