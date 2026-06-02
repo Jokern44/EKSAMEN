@@ -4,7 +4,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Deler</title>
+
     <link rel="stylesheet" href="style.css" />
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="supabase-client.js"></script>
     <script src="app.js"></script>
@@ -13,11 +15,13 @@
   <body>
     <header class="topbar">
       <h1>Bildeler.no</h1>
+
       <nav>
         <a href="index.html">Home</a>
         <a href="deler.html">Deler</a>
         <a href="handlekurv.html">Handlekurv</a>
       </nav>
+
       <div id="user-info"></div>
     </header>
 
@@ -28,32 +32,40 @@
       </section>
 
       <section class="parts-list">
-        <div class="part-card">
-          <h3>Bremseklosser foran</h3>
-          <p>Passer Volkswagen Golf 1.4 TSI</p>
-          <p>Pris: 599 kr</p>
-          <p>OEM kvalitet. Sett med 4 klosser.</p>
+        <div class="card part-card">
+          <div class="card-body">
+            <h5 class="card-title">Bremseklosser foran</h5>
+            <p class="card-text">Passer Volkswagen Golf 1.4 TSI</p>
+            <p class="card-text">Pris: 599 kr</p>
+            <p class="card-text">OEM kvalitet. Sett med 4 klosser.</p>
+          </div>
         </div>
 
-        <div class="part-card">
-          <h3>Olje 5W-30</h3>
-          <p>Fullsyntetisk motorolje</p>
-          <p>Pris: 349 kr</p>
-          <p>Godkjent for bensin og diesel motorer</p>
+        <div class="card part-card">
+          <div class="card-body">
+            <h5 class="card-title">Olje 5W-30</h5>
+            <p class="card-text">Fullsyntetisk motorolje</p>
+            <p class="card-text">Pris: 349 kr</p>
+            <p class="card-text">Godkjent for bensin og diesel motorer</p>
+          </div>
         </div>
 
-        <div class="part-card">
-          <h3>Luftfilter</h3>
-          <p>Standard erstatningsfilter</p>
-          <p>Pris: 199 kr</p>
-          <p>Bedre luftflyt og motorytelse</p>
+        <div class="card part-card">
+          <div class="card-body">
+            <h5 class="card-title">Luftfilter</h5>
+            <p class="card-text">Standard erstatningsfilter</p>
+            <p class="card-text">Pris: 199 kr</p>
+            <p class="card-text">Bedre luftflyt</p>
+          </div>
         </div>
 
-        <div class="part-card">
-          <h3>Tennplugger (sett)</h3>
-          <p>4 stk NGK plugg</p>
-          <p>Pris: 299 kr</p>
-          <p>Passer de fleste 1.4 TSI motorer</p>
+        <div class="card part-card">
+          <div class="card-body">
+            <h5 class="card-title">Tennplugger</h5>
+            <p class="card-text">NGK sett med 4 stk</p>
+            <p class="card-text">Pris: 299 kr</p>
+            <p class="card-text">Passer 1.4 TSI</p>
+          </div>
         </div>
       </section>
     </main>

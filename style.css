@@ -1,46 +1,31 @@
 body {
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  min-height: 100vh;
-  font-family: Arial, Helvetica, sans-serif;
-  padding: 32px;
   margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
   background: #f4f4f4;
   font-size: 18px;
 }
-
+* {
+  box-sizing: border-box;
+}
+/* TOPBAR (beholdes som du hadde den) */
 .topbar {
   position: fixed;
-  top: 0%;
+  top: 0;
   left: 0;
   right: 0;
   height: 64px;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
+
   background: #ffffff;
   border-bottom: 1px solid #e6e6e6;
   padding: 0 24px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
 }
 
-.topbar h1 {
-  margin: 0;
-  font-size: 20px;
-}
-.topbar nav {
-  display: flex;
-  gap: 16px;
-}
-.topbar nav a {
-  color: #333;
-  text-decoration: none;
-}
-.topbar #user-info {
-  font-size: 14px;
-}
-
+/* DETTE er Home + generelt container (IKKE fjernet) */
 .card {
   width: 100%;
   max-width: 900px;
@@ -48,9 +33,37 @@ body {
   padding: 40px;
   border: 1px solid #ddd;
   border-radius: 12px;
-  margin-top: 84px;
+  margin: 84px auto 0 auto;
 }
 
+/* PAGE wrapper for andre sider */
+.page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 100px 20px 40px;
+}
+
+/* GRID for deler */
+.parts-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* PRODUCT CARDS */
+.part-card {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 12px;
+  padding-left: 10%;
+  padding-right: 10%;
+  background: #fff;
+}
+
+/* FORM (beholdt) */
 form {
   display: flex;
   flex-direction: column;
@@ -75,26 +88,7 @@ button {
   cursor: pointer;
 }
 
-.search {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  margin-bottom: 18px;
-}
-.search label {
-  margin-right: 8px;
-}
-
-.cta {
-  display: inline-block;
-  margin-top: 18px;
-  color: #000;
-}
-
-#status {
-  margin-top: 20px;
-}
-
+/* small helpers */
 pre {
   margin-top: 12px;
   background: #eee;
@@ -106,33 +100,4 @@ pre {
 .user-email {
   font-weight: 600;
   margin-right: 8px;
-}
-
-.page {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-.parts-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-top: 20px;
-}
-
-.part-card {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 12px;
-  background: #fff;
-}
-
-.part-card h3 {
-  margin: 0 0 6px 0;
-}
-
-.part-card p {
-  margin: 4px 0;
-  color: #333;
 }
