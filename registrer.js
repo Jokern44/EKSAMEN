@@ -1,12 +1,5 @@
-const supabaseUrl = "https://gebtcnziczaayzwuiztk.supabase.co";
-// Do NOT put service role keys here. This is the anon key used by the site.
-const anonKey =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdlYnRjbnppY3phYXl6d3VpenRrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAzMTIxNTAsImV4cCI6MjA5NTg4ODE1MH0.RZGOF0jzgDJQfda8N6dDBJPYUa87Hz9PZtuxgAH8ALU";
-
-const supabaseClient =
-  window.supabase && typeof window.supabase.createClient === "function"
-    ? window.supabase.createClient(supabaseUrl, anonKey)
-    : null;
+// Use shared client initialized in supabase-client.js
+const supabaseClient = window._supabaseClient || null;
 const form = document.getElementById("register-form");
 const statusEl = document.getElementById("status");
 
@@ -58,4 +51,8 @@ form.addEventListener("submit", async (e) => {
   }
 
   statusEl.textContent = "Sjekk e-posten din for bekreftelse hvis nødvendig.";
+  // Redirect to login after short delay
+  setTimeout(() => {
+    window.location.href = "login.html";
+  }, 1000);
 });

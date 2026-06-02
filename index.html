@@ -5,13 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Bildeler.no</title>
     <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-client.js"></script>
   </head>
   <body>
-    <main class="card">
+    <header class="topbar">
       <h1>Bildeler.no</h1>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="deler.html">Deler</a>
+        <a href="handlekurv.html">Handlekurv</a>
+      </nav>
+      <div id="user-info"></div>
+    </header>
 
-      <input id="reg" placeholder="Regnummer" />
-      <button onclick="sok()">Søk</button>
+    <main class="card">
+      <section class="search">
+        <label for="reg">Regnummer</label>
+        <input id="reg" placeholder="Regnummer" />
+        <button id="search-btn">Søk</button>
+      </section>
 
       <p class="cta-text">
         Vil du lagre regnummer, aftermarket deler og handlekurv?
@@ -21,6 +34,7 @@
       <pre id="out"></pre>
     </main>
 
+    <script src="app.js"></script>
     <script src="script.js"></script>
   </body>
 </html>

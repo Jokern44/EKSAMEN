@@ -1,8 +1,5 @@
-const supabaseUrl = "https://gebtcnziczaayzwuiztk.supabase.co";
-const anonKey =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdlYnRjbnppY3phYXl6d3VpenRrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAzMTIxNTAsImV4cCI6MjA5NTg4ODE1MH0.RZGOF0jzgDJQfda8N6dDBJPYUa87Hz9PZtuxgAH8ALU";
-
-let supabase;
+// Use shared client initialized in supabase-client.js
+const supabaseClient = window._supabaseClient || null;
 const form = document.getElementById("login-form");
 const statusEl = document.getElementById("status");
 const profileEl = document.getElementById("profile");
@@ -14,8 +11,6 @@ if (!window.supabase || typeof window.supabase.createClient !== "function") {
   );
   if (statusEl)
     statusEl.textContent = "Feil: Supabase-biblioteket er ikke lastet.";
-} else {
-  supabase = window.supabase.createClient(supabaseUrl, anonKey);
 }
 
 if (form) {
@@ -24,7 +19,7 @@ if (form) {
     statusEl.textContent = "Logger inn...";
     profileEl.textContent = "";
 
-    if (!supabase) {
+    if (!supabaseClient) {
       statusEl.textContent = "Kan ikke logge inn: Supabase-klienten mangler.";
       return;
     }
@@ -32,7 +27,7 @@ if (form) {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
 
-    const { data, error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await supabaseClient.auth.signInWithPassword({
       email,
       password,
     });
@@ -41,9 +36,16 @@ if (form) {
       statusEl.textContent = error.message;
       return;
     }
-
     const userId = data.user.id;
-    const { data: profile, error: profileError } = await supabase
+    // store email and user id for the app
+    try {
+      const userEmail = data.user.email || email;
+      localStorage.setItem("user_email", userEmail);
+      localStorage.setItem("user_id", userId);
+    } catch (e) {
+      console.warn("Could not store user info locally", e);
+    }
+    const { data: profile, error: profileError } = await supabaseClient
       .from("profiles")
       .select("*")
       .eq("id", userId)
@@ -57,6 +59,10 @@ if (form) {
 
     statusEl.textContent = "Logget inn.";
     profileEl.textContent = JSON.stringify(profile, null, 2);
+    // redirect to home page after successful login
+    setTimeout(() => {
+      window.location.href = "index.html";
+    }, 600);
   });
 } else {
   console.error("Login form not found in DOM.");
