@@ -107,3 +107,32 @@ pre {
   font-weight: 600;
   margin-right: 8px;
 }
+
+.page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.parts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.part-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 12px;
+  background: #fff;
+}
+
+.part-card h3 {
+  margin: 0 0 6px 0;
+}
+
+.part-card p {
+  margin: 4px 0;
+  color: #333;
+}

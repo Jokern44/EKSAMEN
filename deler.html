@@ -9,6 +9,7 @@
     <script src="supabase-client.js"></script>
     <script src="app.js"></script>
   </head>
+
   <body>
     <header class="topbar">
       <h1>Bildeler.no</h1>
@@ -20,9 +21,41 @@
       <div id="user-info"></div>
     </header>
 
-    <main class="card">
-      <h2>Deler til bil</h2>
-      <p>Her kan du liste deler for et regnummer (placeholder).</p>
+    <main class="page">
+      <section class="intro">
+        <h2>Deler til bil</h2>
+        <p>Velg deler som passer bilen din.</p>
+      </section>
+
+      <section class="parts-list">
+        <div class="part-card">
+          <h3>Bremseklosser foran</h3>
+          <p>Passer Volkswagen Golf 1.4 TSI</p>
+          <p>Pris: 599 kr</p>
+          <p>OEM kvalitet. Sett med 4 klosser.</p>
+        </div>
+
+        <div class="part-card">
+          <h3>Olje 5W-30</h3>
+          <p>Fullsyntetisk motorolje</p>
+          <p>Pris: 349 kr</p>
+          <p>Godkjent for bensin og diesel motorer</p>
+        </div>
+
+        <div class="part-card">
+          <h3>Luftfilter</h3>
+          <p>Standard erstatningsfilter</p>
+          <p>Pris: 199 kr</p>
+          <p>Bedre luftflyt og motorytelse</p>
+        </div>
+
+        <div class="part-card">
+          <h3>Tennplugger (sett)</h3>
+          <p>4 stk NGK plugg</p>
+          <p>Pris: 299 kr</p>
+          <p>Passer de fleste 1.4 TSI motorer</p>
+        </div>
+      </section>
     </main>
   </body>
 </html>
