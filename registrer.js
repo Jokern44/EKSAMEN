@@ -3,7 +3,10 @@ const supabaseUrl = "https://gebtcnziczaayzwuiztk.supabase.co";
 const anonKey =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdlYnRjbnppY3phYXl6d3VpenRrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAzMTIxNTAsImV4cCI6MjA5NTg4ODE1MH0.RZGOF0jzgDJQfda8N6dDBJPYUa87Hz9PZtuxgAH8ALU";
 
-const supabase = window.supabase.createClient(supabaseUrl, anonKey);
+const supabaseClient =
+  window.supabase && typeof window.supabase.createClient === "function"
+    ? window.supabase.createClient(supabaseUrl, anonKey)
+    : null;
 const form = document.getElementById("register-form");
 const statusEl = document.getElementById("status");
 
@@ -30,7 +33,12 @@ form.addEventListener("submit", async (e) => {
 
   statusEl.textContent = "Oppretter...";
 
-  const { data, error } = await supabase.auth.signUp({ email, password });
+  if (!supabaseClient) {
+    statusEl.textContent = "Feil: Supabase-klienten er ikke tilgjengelig.";
+    return;
+  }
+
+  const { data, error } = await supabaseClient.auth.signUp({ email, password });
 
   if (error) {
     statusEl.textContent = `Feil: ${error.message}`;
@@ -40,7 +48,7 @@ form.addEventListener("submit", async (e) => {
   // If user was created immediately, try to create a profiles row.
   if (data && data.user && data.user.id) {
     try {
-      const { error: pError } = await supabase
+      const { error: pError } = await supabaseClient
         .from("profiles")
         .insert([{ id: data.user.id }]);
       if (pError) console.warn("Kunne ikke opprette profil:", pError.message);
